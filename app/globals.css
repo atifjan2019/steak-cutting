@@ -232,9 +232,9 @@ body {
    ============================================ */
 .knife {
   position: absolute;
-  left: -80px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%) rotate(90deg);
   z-index: 30;
   opacity: 0;
   pointer-events: none;
@@ -252,23 +252,25 @@ body {
 
 @keyframes knifeSlice {
   0% {
-    left: -80px;
+    top: -80px;
     opacity: 0;
-    transform: translateY(-240px) rotate(-5deg);
+    transform: translateY(0) translateX(240px) rotate(90deg);
   }
 
   30% {
-    left: calc(50% - 15px);
+    top: 50%;
     opacity: 1;
-    transform: translateY(-240px) rotate(0deg);
+    transform: translateY(-50%) translateX(240px) rotate(90deg);
   }
 
   50% {
-    transform: translateY(-240px) rotate(0deg);
+    top: 50%;
+    transform: translateY(-50%) translateX(240px) rotate(90deg);
   }
 
   75% {
-    transform: translateY(240px) rotate(0deg);
+    top: 50%;
+    transform: translateY(-50%) translateX(-240px) rotate(90deg);
   }
 
   85% {
@@ -276,9 +278,9 @@ body {
   }
 
   100% {
-    left: calc(50% - 15px);
+    top: 50%;
     opacity: 0;
-    transform: translateY(300px) rotate(0deg);
+    transform: translateY(-50%) translateX(-300px) rotate(90deg);
   }
 }
 
@@ -319,35 +321,35 @@ body {
   overflow: hidden;
 }
 
-/* Clip each slice to its third */
+/* Clip each slice to its third (vertical columns) */
 .slice-1 {
-  clip-path: inset(0 0 66.66% 0);
+  clip-path: inset(0 66.66% 0 0);
   z-index: 3;
 }
 
 .slice-2 {
-  clip-path: inset(33.33% 0 33.33% 0);
+  clip-path: inset(0 33.33% 0 33.33%);
   z-index: 2;
 }
 
 .slice-3 {
-  clip-path: inset(66.66% 0 0 0);
+  clip-path: inset(0 0 0 66.66%);
   z-index: 1;
 }
 
-/* ---- On hover: slices separate ---- */
+/* ---- On hover: slices separate (horizontal spread) ---- */
 .steak-stage:hover .slice-1 {
-  transform: translateY(-70px) translateX(-10px);
+  transform: translateX(-70px) translateY(-10px);
   transition-delay: 0.5s;
 }
 
 .steak-stage:hover .slice-2 {
-  transform: translateX(15px);
+  transform: translateY(15px);
   transition-delay: 0.6s;
 }
 
 .steak-stage:hover .slice-3 {
-  transform: translateY(70px) translateX(-5px);
+  transform: translateX(70px) translateY(-5px);
   transition-delay: 0.7s;
 }
 
@@ -360,35 +362,50 @@ body {
 /* ---- Slice card overlay (labels) ---- */
 .slice-card {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  width: 33.33%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   opacity: 0;
-  transform: translateX(-20px);
+  transform: translateY(20px);
   transition: opacity 0.4s ease, transform 0.5s var(--transition-ease);
   pointer-events: none;
   z-index: 5;
 }
 
+.slice-1 .slice-card {
+  left: 0;
+}
+
+.slice-2 .slice-card {
+  left: 33.33%;
+}
+
+.slice-3 .slice-card {
+  left: 66.66%;
+}
+
 .steak-stage:hover .slice-1 .slice-card {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   transition-delay: 0.8s;
   pointer-events: all;
 }
 
 .steak-stage:hover .slice-2 .slice-card {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   transition-delay: 0.9s;
   pointer-events: all;
 }
 
 .steak-stage:hover .slice-3 .slice-card {
   opacity: 1;
-  transform: translateX(0);
+  transform: translateY(0);
   transition-delay: 1.0s;
   pointer-events: all;
 }
@@ -401,11 +418,14 @@ body {
 
 .card-label {
   font-family: var(--font-heading), sans-serif;
-  font-size: 2.4rem;
-  letter-spacing: 8px;
+  font-size: 1.6rem;
+  letter-spacing: 5px;
   color: var(--color-cream);
   transition: color 0.3s ease, letter-spacing 0.3s ease;
   text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
 }
 
 .card-sub {
@@ -415,12 +435,14 @@ body {
   color: var(--color-text-dim);
   text-transform: uppercase;
   transition: color 0.3s ease;
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
 }
 
 /* Card hover effects */
 .steak-slice:hover .card-label {
   color: var(--color-gold-light);
-  letter-spacing: 12px;
+  letter-spacing: 8px;
 }
 
 .steak-slice:hover .card-sub {
@@ -436,10 +458,10 @@ body {
    ============================================ */
 .cut-line {
   position: absolute;
-  left: 8%;
-  width: 84%;
-  height: 2px;
-  background: linear-gradient(90deg,
+  top: 8%;
+  width: 2px;
+  height: 84%;
+  background: linear-gradient(180deg,
       transparent,
       rgba(255, 255, 255, 0.6),
       rgba(201, 169, 110, 0.4),
@@ -451,11 +473,11 @@ body {
 }
 
 .cut-line-1 {
-  top: calc(50% - 53px);
+  left: calc(50% - 53px);
 }
 
 .cut-line-2 {
-  top: calc(50% + 53px);
+  left: calc(50% + 53px);
 }
 
 .steak-stage:hover .cut-line-1 {
@@ -469,17 +491,17 @@ body {
 @keyframes cutFlash {
   0% {
     opacity: 0;
-    transform: scaleX(0);
+    transform: scaleY(0);
   }
 
   30% {
     opacity: 1;
-    transform: scaleX(1);
+    transform: scaleY(1);
   }
 
   100% {
     opacity: 0;
-    transform: scaleX(1.2);
+    transform: scaleY(1.2);
   }
 }
 
@@ -596,12 +618,8 @@ body {
   }
 
   .card-label {
-    font-size: 1.8rem;
-    letter-spacing: 5px;
-  }
-
-  .card-sub {
-    display: none;
+    font-size: 1.2rem;
+    letter-spacing: 3px;
   }
 
   .side-decor {
@@ -609,39 +627,127 @@ body {
   }
 
   .steak-stage:hover .slice-1 {
-    transform: translateY(-50px);
+    transform: translateX(-40px);
   }
 
   .steak-stage:hover .slice-3 {
-    transform: translateY(50px);
+    transform: translateX(40px);
+  }
+
+  .hero-hint {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
   }
 }
 
 @media (max-width: 480px) {
-  .steak-stage {
-    width: 300px;
-    height: 300px;
+  .navbar {
+    padding: 12px 16px;
   }
 
-  .steak-container {
-    width: 270px;
-    height: 230px;
-  }
-
-  .card-label {
-    font-size: 1.5rem;
+  .brand-the {
+    font-size: 0.7rem;
     letter-spacing: 4px;
+  }
+
+  .brand-cut {
+    font-size: 1.4rem;
+    letter-spacing: 2px;
   }
 
   .nav-tagline {
     display: none;
   }
 
+  .steak-stage {
+    width: 280px;
+    height: 280px;
+  }
+
+  .steak-container {
+    width: 250px;
+    height: 210px;
+  }
+
+  .card-label {
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+
   .steak-stage:hover .slice-1 {
-    transform: translateY(-40px);
+    transform: translateX(-30px);
   }
 
   .steak-stage:hover .slice-3 {
-    transform: translateY(40px);
+    transform: translateX(30px);
+  }
+
+  .hero-hint {
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    margin-top: 30px;
+  }
+}
+
+/* Touch devices: use active state as hover fallback */
+@media (hover: none) {
+  .steak-stage:active .knife {
+    animation: knifeSlice 1.4s var(--transition-ease) 0.1s forwards;
+  }
+
+  .steak-stage:active .slice-1 {
+    transform: translateX(-40px);
+    transition-delay: 0.5s;
+  }
+
+  .steak-stage:active .slice-2 {
+    transform: translateY(15px);
+    transition-delay: 0.6s;
+  }
+
+  .steak-stage:active .slice-3 {
+    transform: translateX(40px);
+    transition-delay: 0.7s;
+  }
+
+  .steak-stage:active .steak-vector {
+    opacity: 0.3;
+    transition-delay: 0.6s;
+  }
+
+  .steak-stage:active .slice-1 .slice-card,
+  .steak-stage:active .slice-2 .slice-card,
+  .steak-stage:active .slice-3 .slice-card {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .steak-stage:active .slice-1 .slice-card {
+    transition-delay: 0.8s;
+  }
+
+  .steak-stage:active .slice-2 .slice-card {
+    transition-delay: 0.9s;
+  }
+
+  .steak-stage:active .slice-3 .slice-card {
+    transition-delay: 1.0s;
+  }
+
+  .steak-stage:active .steam-group {
+    opacity: 0;
+  }
+
+  .steak-stage:active .cut-line-1 {
+    animation: cutFlash 0.6s ease 0.55s forwards;
+  }
+
+  .steak-stage:active .cut-line-2 {
+    animation: cutFlash 0.6s ease 0.65s forwards;
+  }
+
+  .steak-stage:active~.hero-hint {
+    opacity: 0;
   }
 }

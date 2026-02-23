@@ -146,9 +146,9 @@ const steamWisps = [
 
 /* ─── Slice data ─── */
 const slices = [
-  { id: "s1", label: "MENU", sub: "Our finest cuts" },
-  { id: "s2", label: "ORDER", sub: "Reserve your table" },
-  { id: "s3", label: "TEAM", sub: "Meet our chefs" },
+  { id: "s1", label: "MENU" },
+  { id: "s2", label: "ORDER" },
+  { id: "s3", label: "TEAM" },
 ];
 
 export default function Home() {
@@ -202,21 +202,7 @@ export default function Home() {
 
       {/* ===== HERO SECTION ===== */}
       <section className="hero" id="hero" ref={heroRef}>
-        {/* Ambient particles */}
-        <div className="ambient-particles">
-          {particles.map((p, i) => (
-            <div
-              key={i}
-              className="particle"
-              style={{
-                "--x": p.x,
-                "--y": p.y,
-                "--duration": p.duration,
-                "--delay": p.delay,
-              }}
-            />
-          ))}
-        </div>
+
 
         {/* Steak interactive area */}
         <div
@@ -257,9 +243,7 @@ export default function Home() {
                   <SteakSVG id={slice.id} />
                 </div>
                 <div className="slice-card">
-                  <span className="card-icon">◆</span>
                   <span className="card-label">{slice.label}</span>
-                  <span className="card-sub">{slice.sub}</span>
                 </div>
               </div>
             ))}
